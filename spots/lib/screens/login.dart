@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spots/services/services.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -10,6 +11,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   AuthService auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void initState() {
@@ -26,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(30),
-        decoration: BoxDecoration(),
+        width: 1000,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,19 +39,71 @@ class _LoginScreenState extends State<LoginScreen> {
             FlutterLogo(
               size: 150,
             ),
-            Text(
-              'Login to Start',
-              style: Theme.of(context).textTheme.headline,
-              textAlign: TextAlign.center,
-            ),
-            Text('Your Tagline'),
-            TextButton(
-              child: Text('Sign in'),
-              onPressed: () => auth.emailSignIn('test@live.nl', 'password'),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  // Email
+                  TextFormField(
+                    decoration: InputDecoration(hintText: 'Email'),
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      if (!EmailValidator.validate(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  // Password
+                  TextFormField(
+                    decoration: InputDecoration(hintText: 'Password'),
+                    controller: _passwordController,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  // Login button
+                  ElevatedButton(
+                    onPressed: () {
+                      setErrorMessage('');
+                      if (_formKey.currentState.validate()) {
+                        var email = _emailController.text;
+                        var password = _passwordController.text;
+                        auth.emailSignIn(email, password).then((value) => {
+                              if (value == null)
+                                {
+                                  setErrorMessage(
+                                      'Incorrect email or password.')
+                                }
+                            });
+                      }
+                    },
+                    child: Text('Sign in'),
+                  ),
+                  Text(
+                    _errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  )
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void setErrorMessage(String message) {
+    setState(() {
+      _errorMessage = message;
+    });
   }
 }
