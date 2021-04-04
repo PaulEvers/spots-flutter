@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    auth.user.listen((user) {
+    auth.user.listen((user) async {
       if (user != null) {
         Navigator.pushReplacementNamed(context, '/map');
       }

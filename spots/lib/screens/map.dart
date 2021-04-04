@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:spots/services/services.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class MapScreen extends StatefulWidget {
 class MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
   String _mapStyle;
+  SpotService spotService = SpotService();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -30,6 +32,8 @@ class MapScreenState extends State<MapScreen> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
+
+    spotService.getAllSpots();
   }
 
   @override
