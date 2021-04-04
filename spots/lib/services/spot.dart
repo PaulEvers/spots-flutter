@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:spots/models/models.dart';
 import 'package:spots/services/auth.dart';
 
 import 'package:http/http.dart' as http;
@@ -11,8 +14,14 @@ class SpotService {
     var url = Uri.parse('http://10.0.2.2:8080/spots');
     var response = await http.get(url, headers: headers);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    List<Spot> spots = [];
+    List<dynamic> jsonList = jsonDecode(response.body);
+    jsonList.forEach((json) {
+      Spot spot = Spot.fromJson(json);
+      spots.add(spot);
+    });
+
+    print(spots.length);
 
     return response.body;
   }
