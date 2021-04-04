@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spots/screens/login.dart';
 import 'package:spots/screens/map.dart';
+import 'package:spots/services/navigation.dart';
 import 'package:spots/services/services.dart';
 
 GetIt getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  getIt.registerSingleton<NavigationService>(NavigationService());
+  getIt.registerSingleton<AuthService>(AuthService());
+
   runApp(App());
 }
 
@@ -36,6 +41,7 @@ class App extends StatelessWidget {
       ),
 
       // Routes
+      navigatorKey: getIt<NavigationService>().navigatorKey,
       routes: {
         '/': (context) => LoginScreen(),
         '/map': (context) => MapScreen(),

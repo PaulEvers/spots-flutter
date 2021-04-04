@@ -6,7 +6,7 @@ import 'package:spots/services/auth.dart';
 import 'package:http/http.dart' as http;
 
 class SpotService {
-  AuthService _authService = AuthService();
+  AuthService _authService = getIt<AuthService>();
 
   Future<String> getAllSpots() async {
     String token = await _authService.getToken();
@@ -20,8 +20,6 @@ class SpotService {
       Spot spot = Spot.fromJson(json);
       spots.add(spot);
     });
-
-    print(spots.length);
 
     return response.body;
   }

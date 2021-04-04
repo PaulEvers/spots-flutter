@@ -1,7 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
 import 'dart:async';
 
+import 'package:spots/services/navigation.dart';
+
+GetIt getIt = GetIt.instance;
+
 class AuthService {
+  final NavigationService _navigationService = getIt<NavigationService>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Firebase user one-time fetch
@@ -9,6 +15,16 @@ class AuthService {
 
   // Firebase user a realtime stream
   Stream<User> get user => _auth.authStateChanges();
+
+  AuthService() {
+    user.listen((user) async {
+      if (user != null) {
+        _navigationService.pushReplacementNamed('/map');
+      } else {
+        _navigationService.pushReplacementNamed('/');
+      }
+    });
+  }
 
   Future<User> emailSignIn(String email, String password) async {
     try {
