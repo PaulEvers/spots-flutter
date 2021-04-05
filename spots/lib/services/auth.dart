@@ -19,9 +19,9 @@ class AuthService {
   AuthService() {
     user.listen((user) async {
       if (user != null) {
-        _navigationService.pushReplacementNamed('/map');
+        await _navigationService.pushReplacementNamed('/map');
       } else {
-        _navigationService.pushReplacementNamed('/');
+        await _navigationService.pushReplacementNamed('/');
       }
     });
   }

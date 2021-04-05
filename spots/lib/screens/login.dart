@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:spots/services/services.dart';
 import 'package:email_validator/email_validator.dart';
@@ -10,20 +12,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  AuthService auth = getIt<AuthService>();
+  final AuthService _auth = getIt<AuthService>();
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  StreamSubscription _sub;
   String _errorMessage = '';
 
   @override
   void initState() {
     super.initState();
-    auth.user.listen((user) async {
+    _sub = _auth.user.listen((user) async {
       if (user != null) {
         Navigator.pushReplacementNamed(context, '/map');
       }
     });
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    await _sub.cancel();
   }
 
   @override
@@ -77,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState.validate()) {
                         var email = _emailController.text;
                         var password = _passwordController.text;
-                        auth.emailSignIn(email, password).then((value) => {
+                        _auth.emailSignIn(email, password).then((value) => {
                               if (value == null)
                                 {
                                   setErrorMessage(

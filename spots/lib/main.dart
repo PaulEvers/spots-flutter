@@ -13,6 +13,7 @@ void main() async {
 
   getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<AuthService>(AuthService());
+  getIt.registerSingleton<SpotService>(SpotService());
 
   runApp(App());
 }

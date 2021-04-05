@@ -13,7 +13,9 @@ class MapScreen extends StatefulWidget {
 class MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
   String _mapStyle;
-  SpotService spotService = SpotService();
+  SpotService _spotService = getIt<SpotService>();
+  AuthService _authService = getIt<AuthService>();
+  final Map<String, Marker> _markers = {};
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -33,7 +35,7 @@ class MapScreenState extends State<MapScreen> {
       _mapStyle = string;
     });
 
-    spotService.getAllSpots();
+    _spotService.getAllSpots();
   }
 
   @override
@@ -45,10 +47,8 @@ class MapScreenState extends State<MapScreen> {
         myLocationEnabled: true,
         compassEnabled: false,
         zoomControlsEnabled: false,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-          controller.setMapStyle(_mapStyle);
-        },
+        onMapCreated: _onMapCreated,
+        markers: _markers.values.toSet(),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
@@ -58,8 +58,29 @@ class MapScreenState extends State<MapScreen> {
     );
   }
 
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    _controller.complete(controller);
+    controller.setMapStyle(_mapStyle);
+
+    final spots = await _spotService.getAllSpots();
+    setState(() {
+      _markers.clear();
+      for (final spot in spots) {
+        final marker = Marker(
+          markerId: MarkerId(spot.id),
+          position:
+              LatLng(spot.coordinates.latitude, spot.coordinates.longitude),
+          infoWindow: InfoWindow(
+            title: spot.name,
+            snippet: spot.description,
+          ),
+        );
+        _markers[spot.id] = marker;
+      }
+    });
+  }
+
   Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    await _authService.signOut();
   }
 }
