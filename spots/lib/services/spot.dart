@@ -20,6 +20,7 @@ class SpotService {
   Future<void> _fetchSpots() async {
     String token = await _authService.getToken();
     var headers = {'Authorization': token};
+    print(token);
     var url = Uri.parse('http://10.0.2.2:8080/spots');
     var response = await http.get(url, headers: headers);
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:spots/screens/spot.dart';
 import 'package:spots/services/services.dart';
 
 class MapScreen extends StatefulWidget {
@@ -67,20 +68,24 @@ class MapScreenState extends State<MapScreen> {
       _markers.clear();
       for (final spot in spots) {
         final marker = Marker(
-          markerId: MarkerId(spot.id),
-          position:
-              LatLng(spot.coordinates.latitude, spot.coordinates.longitude),
-          infoWindow: InfoWindow(
-            title: spot.name,
-            snippet: spot.description,
-          ),
-        );
+            markerId: MarkerId(spot.id),
+            position:
+                LatLng(spot.coordinates.latitude, spot.coordinates.longitude),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SpotInfoScreen(spot: spot),
+                ),
+              );
+            });
         _markers[spot.id] = marker;
       }
     });
   }
 
   Future<void> _goToTheLake() async {
+    // Navigator.pushNamed(context, '/spot');
     await _authService.signOut();
   }
 }

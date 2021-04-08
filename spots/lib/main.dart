@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spots/screens/login.dart';
 import 'package:spots/screens/map.dart';
+import 'package:spots/screens/spot.dart';
 import 'package:spots/services/navigation.dart';
 import 'package:spots/services/services.dart';
 
@@ -30,7 +31,6 @@ class App extends StatelessWidget {
         bottomAppBarTheme: BottomAppBarTheme(
           color: Colors.black87,
         ),
-        brightness: Brightness.dark,
         textTheme: TextTheme(
           body1: TextStyle(fontSize: 18),
           body2: TextStyle(fontSize: 16),
