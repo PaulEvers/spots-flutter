@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_it/get_it.dart';
 import 'dart:async';
+
+GetIt getIt = GetIt.instance;
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Firebase user one-time fetch
   User get getUser => _auth.currentUser;
-
-  // Firebase user a realtime stream
-  Stream<User> get user => _auth.authStateChanges();
 
   Future<User> emailSignIn(String email, String password) async {
     try {
