@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:spots/screens/landing.dart';
 import 'package:spots/screens/login.dart';
 import 'package:spots/screens/map.dart';
-import 'package:spots/screens/spot.dart';
 import 'package:spots/services/navigation.dart';
 import 'package:spots/services/services.dart';
 
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Spots',
 
       // Theme
       theme: ThemeData(
@@ -44,7 +44,7 @@ class App extends StatelessWidget {
       // Routes
       navigatorKey: getIt<NavigationService>().navigatorKey,
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => LandingScreen(),
         '/map': (context) => MapScreen(),
       },
     );

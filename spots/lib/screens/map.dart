@@ -35,12 +35,11 @@ class MapScreenState extends State<MapScreen> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-
-    _spotService.getAllSpots();
   }
 
   @override
   Widget build(BuildContext context) {
+    _createMarkers();
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -62,7 +61,9 @@ class MapScreenState extends State<MapScreen> {
   Future<void> _onMapCreated(GoogleMapController controller) async {
     _controller.complete(controller);
     controller.setMapStyle(_mapStyle);
+  }
 
+  void _createMarkers() async {
     final spots = await _spotService.getAllSpots();
     setState(() {
       _markers.clear();

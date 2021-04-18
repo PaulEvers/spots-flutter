@@ -16,23 +16,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  StreamSubscription _sub;
+  // StreamSubscription _sub;
   String _errorMessage = '';
 
   @override
   void initState() {
     super.initState();
-    _sub = _auth.user.listen((user) async {
-      if (user != null) {
-        Navigator.pushReplacementNamed(context, '/map');
-      }
-    });
+    // _sub = _auth.user.listen((user) async {
+    //   if (user != null) {
+    //     Navigator.pushReplacementNamed(context, '/map');
+    //   }
+    // });
   }
 
   @override
   void dispose() async {
     super.dispose();
-    await _sub.cancel();
+    // await _sub.cancel();
   }
 
   @override
