@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:spots/screens/landing.dart';
-import 'package:spots/screens/login.dart';
 import 'package:spots/screens/map.dart';
 import 'package:spots/services/navigation.dart';
 import 'package:spots/services/services.dart';
