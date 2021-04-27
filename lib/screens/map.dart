@@ -23,12 +23,6 @@ class MapScreenState extends State<MapScreen> {
     zoom: 14.4746,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +33,6 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _createMarkers();
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -61,6 +54,7 @@ class MapScreenState extends State<MapScreen> {
   Future<void> _onMapCreated(GoogleMapController controller) async {
     _controller.complete(controller);
     controller.setMapStyle(_mapStyle);
+    _createMarkers();
   }
 
   void _createMarkers() async {

@@ -20,16 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String _errorMessage = '';
 
   @override
-  void initState() {
-    super.initState();
-    // _sub = _auth.user.listen((user) async {
-    //   if (user != null) {
-    //     Navigator.pushReplacementNamed(context, '/map');
-    //   }
-    // });
-  }
-
-  @override
   void dispose() async {
     super.dispose();
     // await _sub.cancel();

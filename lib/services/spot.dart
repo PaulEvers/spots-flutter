@@ -11,8 +11,10 @@ class SpotService {
 
   Future<List<Spot>> getAllSpots() async {
     if (_spots.length == 0) {
-      _fetchSpots();
+      await _fetchSpots();
     }
+
+    print(_spots);
 
     return _spots;
   }
@@ -21,7 +23,7 @@ class SpotService {
     String token = await _authService.getToken();
     var headers = {'Authorization': token};
     print(token);
-    var url = Uri.parse('http://10.0.2.2:8080/spots');
+    var url = Uri.parse('https://10.0.2.2:443/spots');
     var response = await http.get(url, headers: headers);
 
     List<Spot> spots = [];

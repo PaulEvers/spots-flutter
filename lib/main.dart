@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +10,7 @@ import 'package:spots/services/services.dart';
 
 GetIt getIt = GetIt.instance;
 void main() async {
+  HttpOverrides.global = new CustomHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -47,5 +50,14 @@ class App extends StatelessWidget {
         '/map': (context) => MapScreen(),
       },
     );
+  }
+}
+
+class CustomHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
