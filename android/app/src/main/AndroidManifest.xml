@@ -4,8 +4,7 @@
     <uses-permission android:name="android.permissions.ACCESS_FINE_LOCATION"/>
    <application
         android:label="spots"
-        android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true"> <!-- TODO: Remove for SSL? -->
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -36,7 +35,7 @@
             </intent-filter>
         </activity>
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBG8e7oeO9YmDulyVI_5tbu9UXB75dfxgw"/>
+               android:value="AIzaSyCeeYyTcbnKQaUwSpDbhsmejAQjaUxi2Ec"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

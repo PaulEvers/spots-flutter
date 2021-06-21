@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:location/location.dart';
+import 'package:spots/screens/permissions.dart';
 import 'package:spots/screens/spot.dart';
 import 'package:spots/services/services.dart';
 
@@ -16,6 +18,7 @@ class MapScreenState extends State<MapScreen> {
   String _mapStyle;
   SpotService _spotService = getIt<SpotService>();
   AuthService _authService = getIt<AuthService>();
+  Location _location = new Location();
   final Map<String, Marker> _markers = {};
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -33,6 +36,18 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<LocationData>(
+        stream: _location.onLocationChanged,
+        builder: (context, snapshot) {
+          print(snapshot);
+          if (snapshot.hasError) {
+            return PermissionsScreen();
+          }
+          return _buildMap();
+        });
+  }
+
+  Widget _buildMap() {
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
@@ -45,7 +60,7 @@ class MapScreenState extends State<MapScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
-        label: Text('To the lake!'),
+        label: Text('Sign out'),
         icon: Icon(Icons.directions_boat),
       ),
     );

@@ -21,6 +21,7 @@ class SpotService {
 
   Future<void> _fetchSpots() async {
     String token = await _authService.getToken();
+    print(token);
     var headers = {'Authorization': token};
     print(token);
     var url = Uri.parse('https://10.0.2.2:443/spots');
